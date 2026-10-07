@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Comparar tokens
         run: |
-          if [ "${{ secrets.DEV_TOKEN }}" = "$LOCAL_DEV_TOKEN" ]; then
+          if [ "${{ secrets.DEV_TOKEN }}" = "111111" ]; then
             echo "Los tokens coinciden (Correcto)"
           else
             echo "Los tokens NO coinciden (Error)"
