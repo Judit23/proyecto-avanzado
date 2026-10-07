@@ -1,5 +1,7 @@
 name: Probar Token
-on: [push]
+on: 
+  push:
+  workflow_dispatch:
 
 jobs:
   verificar-token:
