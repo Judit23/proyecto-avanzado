@@ -1,0 +1,34 @@
+name: CI Workflow
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Update README
+        run: |
+          $content = Get-Content README.md -Raw
+          if ($content -match 'AppVersion-(\d+)') {
+              $version = [int]$Matches[1] + 1
+              $newContent = "AppVersion-$version"
+              Set-Content README.md $newContent
+          } else {
+              Set-Content README.md "AppVersion-1"
+          }
+
+      - name: Validar token de desarrollo
+        run: |
+          if ("${{ secrets.DEV_TOKEN }}" -eq "$env:LOCAL_DEV_TOKEN") {
+              Write-Host "Token validado correctamente."
+          } else {
+              Write-Host "Error: El token no coincide."
+              exit 1
+          }
