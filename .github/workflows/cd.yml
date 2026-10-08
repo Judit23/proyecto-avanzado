@@ -1,0 +1,25 @@
+name: CD Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy-production:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Bump Version en README
+        run: |
+          echo "Actualizando versión de AppVersion-0 a AppVersion-1"
+          # Comando para actualizar la versión en el README para producción
+      - name: Validar token de produccion
+        run: |
+          if [ "${{ secrets.PROD_TOKEN }}" = "$LOCAL_PROD_TOKEN" ]; then
+            echo "Token de producción correcto"
+          else
+            echo "Token de producción incorrecto"
+            exit 1
+          fi

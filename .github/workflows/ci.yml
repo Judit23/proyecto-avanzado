@@ -1,0 +1,30 @@
+name: CI Workflow
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  update-readme:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Actualizar README
+        run: |
+          echo "Actualizando README para la nueva feature"
+          # Aquí puedes añadir los comandos necesarios para modificar o actualizar el README
+
+  validate-dev:
+    needs: update-readme
+    runs-on: self-hosted
+    steps:
+      - name: Validar token de desarrollo
+        run: |
+          if [ "${{ secrets.DEV_TOKEN }}" = "$LOCAL_DEV_TOKEN" ]; then
+            echo "Token de desarrollo correcto"
+          else
+            echo "Token de desarrollo incorrecto"
+            exit 1
+          fi
